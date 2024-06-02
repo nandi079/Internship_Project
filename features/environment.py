@@ -17,19 +17,19 @@ def browser_init(context):
     #context.driver = webdriver.Chrome(service=service)
 
 
-    #driver_path = GeckoDriverManager().install()
-    #service = Service(driver_path)
-    #context.driver = webdriver.Firefox(service=service)
+    driver_path = GeckoDriverManager().install()
+    service = Service(driver_path)
+    context.driver = webdriver.Firefox(service=service)
 
     ### HEADLESS MODE ####
-    options = webdriver.ChromeOptions()
-    options.add_argument('headless')
-    options.add_argument('--window-size=1920,1080')
-    service = Service(ChromeDriverManager().install())
-    context.driver = webdriver.Chrome(
-         options=options,
-         service=service
-    )
+    #options = webdriver.ChromeOptions()
+    #options.add_argument('headless')
+    #options.add_argument('--window-size=1920,1080')
+    #service = Service(ChromeDriverManager().install())
+    #context.driver = webdriver.Chrome(
+     #    options=options,
+      #   service=service
+    #)
 
     context.app = Application(context.driver)
 

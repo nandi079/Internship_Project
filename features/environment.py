@@ -12,14 +12,14 @@ def browser_init(context):
     """
     :param context: Behave context
     """
-    #driver_path = ChromeDriverManager().install()
-    #service = Service(driver_path)
-    #context.driver = webdriver.Chrome(service=service)
-
-
-    driver_path = GeckoDriverManager().install()
+    driver_path = ChromeDriverManager().install()
     service = Service(driver_path)
-    context.driver = webdriver.Firefox(service=service)
+    context.driver = webdriver.Chrome(service=service)
+
+
+    #driver_path = GeckoDriverManager().install()
+    #service = Service(driver_path)
+    #context.driver = webdriver.Firefox(service=service)
 
     ### HEADLESS MODE ####
     #options = webdriver.ChromeOptions()
@@ -31,11 +31,27 @@ def browser_init(context):
       #   service=service
     #)
 
-    context.app = Application(context.driver)
+    ### BROWSERSTACK ###
+    # Register for BrowserStack, then grab it from https://www.browserstack.com/accounts/settings
+    bs_user = 'nandinisarkar_SA5mDb'
+    bs_key = 'RsMZ3Z1HxxvquWC5kV2q'
+    url = f'http://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
+
+    options = Options()
+    bstack_options = {
+        'os': 'Windows',
+        'osVersion': '10',
+        'browserName': 'chrome',
+        'sessionName': '22-User can filter by sale status Newly Launch'
+    }
+    options.set_capability('bstack:options', bstack_options)
+    context.driver = webdriver.Remote(command_executor=url, options=options)
 
     context.driver.maximize_window()
     context.driver.implicitly_wait(4)
     context.wait = WebDriverWait(context.driver, timeout=15)
+
+    context.app = Application(context.driver)  # excess to main_page, header, search_result_page
 
 
 def before_scenario(context, scenario):

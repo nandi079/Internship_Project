@@ -70,9 +70,9 @@ class Page:  # generic base page
         actual_text = self.find_element(*locator).text
         assert expected_text in actual_text, f'Expected {expected_text} not in {actual_text}'
 
-
     def verify_url(self, expected_url):
         self.wait.until(EC.url_matches(expected_url), f'Url does not contain {expected_url}')
+
 
 
     def save_screenshot(self, name):

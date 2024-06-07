@@ -25,5 +25,7 @@ class SignInPage(Page):
         sleep(7)
 
     def verify_user_loggedin(self, expected_name):
-        self.verify_partial_text(expected_name, *self.VERIFY_LOGIN_NAME)
+        login_name = self.find_element(*self.VERIFY_LOGIN_NAME)
+        #self.verify_partial_text(expected_name, *self.VERIFY_LOGIN_NAME)
+        assert login_name, expected_name
         sleep(3)

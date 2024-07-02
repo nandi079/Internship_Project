@@ -8,6 +8,9 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 from app.application import Application
 
+#  Run Behave tests with Allure results
+# behave -f allure_behave.formatter:AllureFormatter -o test_results/ features/tests/target_app_ui_tests.feature
+
 def browser_init(context):
     """
     :param context: Behave context
@@ -16,12 +19,12 @@ def browser_init(context):
     service = Service(driver_path)
     context.driver = webdriver.Chrome(service=service)
 
+    ##chrome function
+    driver_path = GeckoDriverManager().install()
+    service = Service(driver_path)
+    context.driver = webdriver.Firefox(service=service)
 
-    #driver_path = GeckoDriverManager().install()
-    #service = Service(driver_path)
-    #context.driver = webdriver.Firefox(service=service)
-
-    ### HEADLESS MODE ####
+    ### HEADLESS MODE #### firefox
     #options = webdriver.ChromeOptions()
     #options.add_argument('headless')
     #options.add_argument('--window-size=1920,1080')
@@ -31,7 +34,10 @@ def browser_init(context):
       #   service=service
     #)
 
-    ### BROWSERSTACK ###
+    ### SAFARI ###
+    # context.driver = webdriver.Safari()
+
+    ### BROWSERSTACK ### browser with drivers
     # Register for BrowserStack, then grab it from https://www.browserstack.com/accounts/settings
     #bs_user = 'nandinisarkar_SA5mDb'
     #bs_key = 'RsMZ3Z1HxxvquWC5kV2q'
@@ -54,17 +60,17 @@ def browser_init(context):
     context.app = Application(context.driver)  # excess to main_page, header, search_result_page
 
     #Chrome Dev Tools Mobile Emulation
-    mobile_emulation = {
-        "deviceName": "iPhone SE"
-    }
+    #mobile_emulation = {
+     #   "deviceName": "iPhone SE"
+    #}
 
-    chrome_options = ChromeOptions()
-    chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+    #chrome_options = ChromeOptions()
+    #chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
 
-    driver_path = ChromeDriverManager().install()
-    service = Service(driver_path)
+    #driver_path = ChromeDriverManager().install()
+    #service = Service(driver_path)
 
-    context.driver = webdriver.Chrome(service=service, options=chrome_options)
+    #context.driver = webdriver.Chrome(service=service, options=chrome_options)
 
 def before_scenario(context, scenario):
     print('\nStarted scenario: ', scenario.name)
